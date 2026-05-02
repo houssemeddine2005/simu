@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculez votre salaire brut en net instantanément. Cadre, non-cadre, fonction publique. Calcul 2024 avec prélèvement à la source." />
+  <title>Simulateur Salaire Brut Net 2024 – Calcul Instantané</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">€</span>
+      <span class="logo-text">Salaire<strong>BrutNet</strong></span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li><a href="index.html" class="active">Simulateur</a></li>
+        <li><a href="#exemples">Exemples</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">✓ Taux officiels 2024</div>
+    <h1>Calculez votre salaire<br /><em>brut en net</em> instantanément</h1>
+    <p class="hero-sub">Cadre · Non-cadre · Fonction publique · Libéral · Portage · Apprenti</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>6</strong> statuts</div>
+      <div class="hero-stat-sep">·</div>
+      <div class="hero-stat"><strong>100 %</strong> gratuit</div>
+      <div class="hero-stat-sep">·</div>
+      <div class="hero-stat"><strong>Résultat immédiat</strong></div>
+    </div>
+  </div>
+</section>
+
+<main class="calc-wrapper" id="simulateur">
+  <div class="calc-container">
+
+    <!-- ─── INPUTS ─── -->
+    <aside class="calc-left">
+      <div class="input-card">
+
+        <div class="field-group">
+          <div class="field-label">Sens du calcul</div>
+          <div class="seg-control" id="modeCtrl">
+            <button class="seg-btn active" data-val="brut-net">Brut → Net</button>
+            <button class="seg-btn" data-val="net-brut">Net → Brut</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label" id="salaryLabel">Votre salaire brut</div>
+          <div class="seg-control small" id="periodCtrl">
+            <button class="seg-btn active" data-val="mensuel">Mensuel</button>
+            <button class="seg-btn" data-val="annuel">Annuel</button>
+            <button class="seg-btn" data-val="horaire">Horaire</button>
+          </div>
+          <div class="salary-input-wrap">
+            <input type="number" id="salaryInput" value="3000" min="0" max="1000000" step="50" placeholder="0" autocomplete="off" />
+            <span class="currency">€</span>
+          </div>
+          <div class="presets">
+            <span class="preset-label">Rapide :</span>
+            <button class="preset-btn" data-val="1801.80" title="SMIC brut 2024">SMIC</button>
+            <button class="preset-btn" data-val="2500">2 500 €</button>
+            <button class="preset-btn" data-val="3000">3 000 €</button>
+            <button class="preset-btn" data-val="5000">5 000 €</button>
+            <button class="preset-btn" data-val="8000">8 000 €</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Statut professionnel</div>
+          <div class="statut-grid" id="statutCtrl">
+            <button class="statut-btn active" data-val="non-cadre">
+              <span class="statut-icon">👔</span>
+              <span class="statut-name">Non-cadre</span>
+              <span class="statut-badge">~22 %</span>
+            </button>
+            <button class="statut-btn" data-val="cadre">
+              <span class="statut-icon">💼</span>
+              <span class="statut-name">Cadre</span>
+              <span class="statut-badge">~25 %</span>
+            </button>
+            <button class="statut-btn" data-val="fonctionnaire">
+              <span class="statut-icon">🏛</span>
+              <span class="statut-name">Fonction publique</span>
+              <span class="statut-badge">~16 %</span>
+            </button>
+            <button class="statut-btn" data-val="liberal">
+              <span class="statut-icon">🩺</span>
+              <span class="statut-name">Libéral (TNS)</span>
+              <span class="statut-badge">~45 %</span>
+            </button>
+            <button class="statut-btn" data-val="portage">
+              <span class="statut-icon">🤝</span>
+              <span class="statut-name">Portage salarial</span>
+              <span class="statut-badge">~30 %</span>
+            </button>
+            <button class="statut-btn" data-val="apprenti">
+              <span class="statut-icon">🎓</span>
+              <span class="statut-name">Apprenti</span>
+              <span class="statut-badge">0 %</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Temps de travail : <strong id="tpsLabel">100 %</strong> <span class="field-hint" id="tpsHint">· 151h67/mois</span></div>
+          <div class="slider-wrap">
+            <span class="slider-end">10 %</span>
+            <input type="range" id="tpsTravail" min="10" max="100" value="100" step="5" />
+            <span class="slider-end">100 %</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Primes conventionnelles</div>
+          <div class="seg-control small" id="moisCtrl">
+            <button class="seg-btn active" data-val="12">12 mois</button>
+            <button class="seg-btn" data-val="13">13 mois</button>
+            <button class="seg-btn" data-val="14">14 mois</button>
+            <button class="seg-btn" data-val="15">15 mois</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Situation fiscale (quotient familial)</div>
+          <div class="select-wrap">
+            <select id="fiscal">
+              <option value="1">Célibataire – 1 part</option>
+              <option value="2">Marié·e sans enfant – 2 parts</option>
+              <option value="2.5">Marié·e + 1 enfant – 2,5 parts</option>
+              <option value="3">Marié·e + 2 enfants – 3 parts</option>
+              <option value="4">Marié·e + 3 enfants et + – 4 parts</option>
+              <option value="2">Parent isolé + 1 enfant – 2 parts</option>
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Taux prélèvement à la source (PAS) : <strong id="pasLabel">0 %</strong></div>
+          <div class="slider-wrap">
+            <span class="slider-end">0 %</span>
+            <input type="range" id="tauxPAS" min="0" max="45" value="0" step="0.5" />
+            <span class="slider-end">45 %</span>
+          </div>
+          <div class="pas-hint" id="pasHint" style="display:none">
+            💡 Trouvez votre taux sur impots.gouv.fr ou votre dernier bulletin
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Options supplémentaires</div>
+          <div class="options-list">
+            <label class="option-row">
+              <input type="checkbox" id="opt-mutuelle" />
+              <span class="option-check"></span>
+              <span class="option-text">Mutuelle entreprise <small>(−50 €/mois)</small></span>
+            </label>
+            <label class="option-row">
+              <input type="checkbox" id="opt-tickets" />
+              <span class="option-check"></span>
+              <span class="option-text">Tickets restaurant <small>(part sal. −100 €/mois)</small></span>
+            </label>
+            <label class="option-row">
+              <input type="checkbox" id="opt-heures-sup" />
+              <span class="option-check"></span>
+              <span class="option-text">Heures supplémentaires <small>(+10h/mois à ×1,25)</small></span>
+            </label>
+            <label class="option-row">
+              <input type="checkbox" id="opt-teletravail" />
+              <span class="option-check"></span>
+              <span class="option-text">Allocation télétravail <small>(+2,50 €/j × 10j)</small></span>
+            </label>
+          </div>
+        </div>
+
+        <button class="reset-btn" id="resetBtn">↺ Réinitialiser</button>
+      </div>
+    </aside>
+
+    <!-- ─── RÉSULTATS ─── -->
+    <section class="calc-right" aria-live="polite">
+
+      <div class="result-hero-card">
+        <div class="result-tabs" id="resultTabs">
+          <button class="result-tab active" data-period="mensuel">Mensuel</button>
+          <button class="result-tab" data-period="annuel">Annuel</button>
+          <button class="result-tab" data-period="horaire">Horaire</button>
+        </div>
+        <div class="result-amounts">
+          <div class="result-col">
+            <div class="result-col-label">Brut</div>
+            <div class="result-col-val" id="disp-brut">3 000 <small>€</small></div>
+          </div>
+          <div class="result-arrow">→</div>
+          <div class="result-col highlight">
+            <div class="result-col-label" id="disp-net-label">Net social</div>
+            <div class="result-col-val" id="disp-net">2 309 <small>€</small></div>
+          </div>
+          <div class="result-col dim" id="col-net-ir" style="display:none">
+            <div class="result-col-label">Net après impôt</div>
+            <div class="result-col-val" id="disp-net-ir">— <small>€</small></div>
+          </div>
+        </div>
+        <div class="repartition-bar">
+          <div class="rbar-seg seg-net" id="seg-net"></div>
+          <div class="rbar-seg seg-cs"  id="seg-cs"></div>
+          <div class="rbar-seg seg-csg" id="seg-csg"></div>
+          <div class="rbar-seg seg-ir"  id="seg-ir"></div>
+        </div>
+        <div class="repartition-legend">
+          <span><i class="dot seg-net"></i>Net <span id="pct-net" class="pct-val"></span></span>
+          <span><i class="dot seg-cs"></i>Cotisations <span id="pct-cs" class="pct-val"></span></span>
+          <span><i class="dot seg-csg"></i>CSG/CRDS <span id="pct-csg" class="pct-val"></span></span>
+          <span class="ir-legend" id="ir-legend" style="display:none"><i class="dot seg-ir"></i>Impôt <span id="pct-ir" class="pct-val"></span></span>
+        </div>
+      </div>
+
+      <!-- Détail accordéon -->
+      <div class="breakdown-card">
+        <div class="breakdown-header">
+          <h2>Détail du calcul</h2>
+          <button class="toggle-detail" id="toggleDetail" aria-expanded="false">Voir le détail ▾</button>
+        </div>
+        <div class="breakdown-body" id="breakdownBody" style="display:none"></div>
+      </div>
+
+      <!-- Métriques -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="mc-label">Taux de charges sal.</div>
+          <div class="mc-val" id="m-charges">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="mc-label">Coût employeur / mois</div>
+          <div class="mc-val" id="m-cout">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="mc-label">Net annuel</div>
+          <div class="mc-val" id="m-annuel">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="mc-label">IR estimé (annuel)</div>
+          <div class="mc-val" id="m-ir">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="mc-label">Net horaire</div>
+          <div class="mc-val" id="m-horaire">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="mc-label">Équivalent journalier</div>
+          <div class="mc-val" id="m-jour">—</div>
+        </div>
+      </div>
+
+      <!-- Détail IR -->
+      <div class="ir-card" id="irCard" style="display:none">
+        <div class="ir-card-header">
+          <span class="ir-icon">📊</span>
+          <h3>Estimation IR par tranches (barème 2024)</h3>
+        </div>
+        <div class="ir-body" id="irBody"></div>
+        <p class="ir-disclaimer">* Abattement forfaitaire 10 % appliqué. Estimation non contractuelle.</p>
+      </div>
+
+      <!-- Comparaison statuts -->
+      <div class="compare-card" id="compareCard">
+        <div class="compare-header">
+          <h3>Comparaison selon le statut</h3>
+          <span class="compare-sub">Net social mensuel pour ce salaire brut</span>
+        </div>
+        <div class="compare-body" id="compareBody"></div>
+      </div>
+
+    </section>
+  </div>
+</main>
+
+<!-- TABLE EXEMPLES -->
+<section class="examples-section" id="exemples">
+  <div class="content-inner">
+    <h2>Exemples brut → net (2024)</h2>
+    <p>Salariés non-cadres, taux officiels 2024, sans options.</p>
+    <div class="table-scroll">
+      <table class="examples-table">
+        <thead>
+          <tr>
+            <th>Brut mensuel</th>
+            <th>Net mensuel</th>
+            <th>Net annuel</th>
+            <th>Taux charges</th>
+            <th>Coût employeur</th>
+            <th>Ratio net/brut</th>
+          </tr>
+        </thead>
+        <tbody id="examplesBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="content-inner">
+    <h2>Questions fréquentes</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Quelle est la différence entre salaire brut et salaire net ?</summary>
+        <p>Le <strong>salaire brut</strong> est la rémunération totale avant toute déduction. Le <strong>salaire net</strong> est ce que vous percevez réellement après soustraction des cotisations sociales salariales. Pour un non-cadre, le rapport net/brut est d'environ 77–78 % ; pour un cadre, autour de 75 %.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quelle différence entre cadre et non-cadre ?</summary>
+        <p>Un cadre cotise davantage à la retraite complémentaire AGIRC-ARRCO (tranche 2 au-delà du plafond SS = 3 864 €/mois) et paie des contributions supplémentaires (CEG, CET). Son taux de charges est donc légèrement plus élevé (~25 % vs ~22 %).</p>
+      </details>
+      <details class="faq-item">
+        <summary>Comment fonctionne le prélèvement à la source (PAS) ?</summary>
+        <p>Depuis janvier 2019, l'impôt sur le revenu est prélevé directement sur votre salaire chaque mois. Le taux est personnalisé et recalculé chaque année par l'administration fiscale. Retrouvez-le sur impots.gouv.fr ou votre dernier bulletin de salaire.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quel est le SMIC net en 2024 ?</summary>
+        <p>Le SMIC brut 2024 est de <strong>1 801,80 €/mois</strong> (35h/semaine). Il correspond à environ <strong>1 398 € net</strong> pour un non-cadre avant prélèvement à la source. Cliquez sur le bouton « SMIC » pour simuler ce cas directement.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Ces calculs sont-ils exacts ?</summary>
+        <p>Ce simulateur fournit une <strong>estimation</strong> basée sur les taux 2024 officiels (URSSAF, AGIRC-ARRCO, DGFiP). Pour des situations complexes (avantages en nature, épargne salariale…), consultez votre service RH ou un expert-comptable.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">Salaire<strong>BrutNet</strong></div>
+    <p class="footer-legal">Simulateur indicatif · Taux 2024 officiels (URSSAF, AGIRC-ARRCO, DGFiP) · Les résultats sont des estimations, non des garanties contractuelles.</p>
+    <div class="footer-links">
+      <a href="#">Mentions légales</a>
+      <a href="#">Contact</a>
+      <a href="#">Politique de confidentialité</a>
+    </div>
+  </div>
+</footer>
+
+<script src="calc.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
